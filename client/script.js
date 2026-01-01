@@ -12,6 +12,15 @@ function getBandwidth() {
   return Math.floor(Math.random() * 5000) + 500; // kbps
 }
 
+// 🎯 Sliding Window Logic
+function getAverageBandwidth(bw) {
+  bandwidthWindow.push(bw);
+  if (bandwidthWindow.length > 5) bandwidthWindow.shift();
+
+  const sum = bandwidthWindow.reduce((a, b) => a + b, 0);
+  return Math.floor(sum / bandwidthWindow.length);
+}
+
 async function startVideo() {
   peer = new RTCPeerConnection();
 
