@@ -1,0 +1,57 @@
+const socket = io("http://localhost:5000");
+
+const localVideo = document.getElementById("localVideo");
+const remoteVideo = document.getElementById("remoteVideo");
+
+let peer;
+
+async function startVideo() {
+  peer = new RTCPeerConnection();
+
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: true
+  });
+
+  localVideo.srcObject = stream;
+  stream.getTracks().forEach(track => peer.addTrack(track, stream));
+
+  peer.ontrack = (event) => {
+    remoteVideo.srcObject = event.streams[0];
+  };
+
+  peer.onicecandidate = (event) => {
+    if (event.candidate) {
+      socket.emit("ice-candidate", event.candidate);
+    }
+  };
+
+  const offer = await peer.createOffer();
+  await peer.setLocalDescription(offer);
+  socket.emit("offer", offer);
+}
+
+socket.on("offer", async (offer) => {
+  peer = new RTCPeerConnection();
+  await peer.setRemoteDescription(offer);
+
+  const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+  localVideo.srcObject = stream;
+  stream.getTracks().forEach(track => peer.addTrack(track, stream));
+
+  peer.ontrack = e => remoteVideo.srcObject = e.streams[0];
+
+  const answer = await peer.createAnswer();
+  await peer.setLocalDescription(answer);
+  socket.emit("answer", answer);
+});
+
+socket.on("answer", async (answer) => {
+  await peer.setRemoteDescription(answer);
+});
+
+socket.on("ice-candidate", async (candidate) => {
+  await peer.addIceCandidate(candidate);
+});
+
+startVideo();
