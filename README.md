@@ -53,6 +53,12 @@ This project implements a **bandwidth-aware video chat system** that:
 
 ---
 
+## 👨‍💻 Author
+Deepak Kumar Kashyap  
+GitHub: https://github.com/Deepak-kumar-kashyap
+
+---
+
 ## 🚀 How to Run Locally
 
 ### 1️⃣ Start Backend
@@ -61,8 +67,4 @@ cd server
 npm install
 node server.js
 
----
 
-## 👨‍💻 Author
-Deepak Kumar Kashyap  
-GitHub: https://github.com/Deepak-kumar-kashyap
