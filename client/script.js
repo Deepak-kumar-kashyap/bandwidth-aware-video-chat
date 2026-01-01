@@ -21,6 +21,13 @@ function getAverageBandwidth(bw) {
   return Math.floor(sum / bandwidthWindow.length);
 }
 
+// 🎯 Greedy Quality Selection
+function getQuality(avg) {
+  if (avg < 1500) return "LOW (360p)";
+  if (avg < 3000) return "MEDIUM (720p)";
+  return "HIGH (1080p)";
+}
+
 async function startVideo() {
   peer = new RTCPeerConnection();
 
