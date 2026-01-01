@@ -60,3 +60,9 @@ This project implements a **bandwidth-aware video chat system** that:
 cd server
 npm install
 node server.js
+
+---
+
+## 👨‍💻 Author
+Deepak Kumar Kashyap  
+GitHub: https://github.com/Deepak-kumar-kashyap
