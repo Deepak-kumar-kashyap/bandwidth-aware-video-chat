@@ -2,6 +2,7 @@ const socket = io("http://localhost:5000");
 
 const localVideo = document.getElementById("localVideo");
 const remoteVideo = document.getElementById("remoteVideo");
+const stats = document.getElementById("stats");
 
 let peer;
 
@@ -28,6 +29,7 @@ function getQuality(avg) {
   return "HIGH (1080p)";
 }
 
+// 🎥 Start Video
 async function startVideo() {
   peer = new RTCPeerConnection();
 
@@ -54,6 +56,7 @@ async function startVideo() {
   socket.emit("offer", offer);
 }
 
+// 🔄 Socket events
 socket.on("offer", async (offer) => {
   peer = new RTCPeerConnection();
   await peer.setRemoteDescription(offer);
@@ -76,5 +79,18 @@ socket.on("answer", async (answer) => {
 socket.on("ice-candidate", async (candidate) => {
   await peer.addIceCandidate(candidate);
 });
+
+// 📊 Bandwidth Monitoring
+setInterval(() => {
+  const bw = getBandwidth();
+  const avg = getAverageBandwidth(bw);
+  const quality = getQuality(avg);
+
+  stats.innerText = `
+  Current Bandwidth: ${bw} kbps
+  Avg Bandwidth: ${avg} kbps
+  Video Quality: ${quality}
+  `;
+}, 2000);
 
 startVideo();
