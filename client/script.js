@@ -81,16 +81,21 @@ socket.on("ice-candidate", async (candidate) => {
 });
 
 // 📊 Bandwidth Monitoring
+const bwEl = document.getElementById("bw");
+const avgEl = document.getElementById("avg");
+const qualityEl = document.getElementById("quality");
+
 setInterval(() => {
   const bw = getBandwidth();
   const avg = getAverageBandwidth(bw);
-  const quality = getQuality(avg);
+  const quality = getVideoQuality(avg);
 
-  stats.innerText = `
-  Current Bandwidth: ${bw} kbps
-  Avg Bandwidth: ${avg} kbps
-  Video Quality: ${quality}
-  `;
+  bwEl.innerText = `${bw} kbps`;
+  avgEl.innerText = `${avg} kbps`;
+
+  qualityEl.innerText = quality;
+  qualityEl.className = `badge ${quality.split(" ")[0]}`;
 }, 2000);
+
 
 startVideo();

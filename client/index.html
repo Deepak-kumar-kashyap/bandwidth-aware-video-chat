@@ -1,15 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bandwidth Aware Video Chat</title>
+  <title>Bandwidth-Aware Video Chat</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h2>Bandwidth Aware Video Chat</h2>
 
-  <video id="localVideo" autoplay muted width="300"></video>
-  <video id="remoteVideo" autoplay width="300"></video>
+  <div class="app">
+    <header>
+      <h2>📡 Bandwidth-Aware Video Chat</h2>
+      <span class="subtitle">Real-time Adaptive Streaming</span>
+    </header>
 
-  <h3 id="stats"></h3>
+    <div class="videos">
+      <div class="video-card">
+        <span>You</span>
+        <video id="localVideo" autoplay muted></video>
+      </div>
+
+      <div class="video-card">
+        <span>Remote</span>
+        <video id="remoteVideo" autoplay></video>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <p>Current Bandwidth</p>
+        <h3 id="bw"></h3>
+      </div>
+      <div class="stat">
+        <p>Average Bandwidth</p>
+        <h3 id="avg"></h3>
+      </div>
+      <div class="stat">
+        <p>Video Quality</p>
+        <h3 id="quality" class="badge"></h3>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
   <script src="script.js"></script>
