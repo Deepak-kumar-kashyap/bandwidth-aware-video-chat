@@ -2,7 +2,9 @@ const socket = io("http://localhost:5000");
 
 const localVideo = document.getElementById("localVideo");
 const remoteVideo = document.getElementById("remoteVideo");
-const stats = document.getElementById("stats");
+const bwEl = document.getElementById("bw");
+const avgEl = document.getElementById("avg");
+const qualityEl = document.getElementById("quality");
 
 let peer;
 
@@ -81,14 +83,11 @@ socket.on("ice-candidate", async (candidate) => {
 });
 
 // 📊 Bandwidth Monitoring
-const bwEl = document.getElementById("bw");
-const avgEl = document.getElementById("avg");
-const qualityEl = document.getElementById("quality");
 
 setInterval(() => {
   const bw = getBandwidth();
   const avg = getAverageBandwidth(bw);
-  const quality = getVideoQuality(avg);
+  const quality = getQuality(avg);
 
   bwEl.innerText = `${bw} kbps`;
   avgEl.innerText = `${avg} kbps`;
