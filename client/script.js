@@ -5,6 +5,13 @@ const remoteVideo = document.getElementById("remoteVideo");
 
 let peer;
 
+let bandwidthWindow = []; // QUEUE (Sliding Window)
+
+// 🎯 Fake Bandwidth Generator
+function getBandwidth() {
+  return Math.floor(Math.random() * 5000) + 500; // kbps
+}
+
 async function startVideo() {
   peer = new RTCPeerConnection();
 
